@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 
@@ -20,11 +19,16 @@ public class TestMethodsParameters {
         volvo = new Volvo240();
     }
 
-    // Generating list of random numbers to use for testing
+    // Method to generate list of random numbers to use for testing
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        // Creating new list "parameters" of type ArrayList (can be dynamically expanded) containing arrays [] that contain Objects
-        List<Object[]> parameters = new ArrayList<>();
+        /* JUnits @Parameterized.Parameters requires this method to return a Collection<Object[]>
+        (Collection is an interface, so the class can return any object that implements it),
+        where each Object[] holds parameters (in this case, only one parameter per test) */
+
+        /* Creating and instantiating an ArrayList named "parameters" to store Object[] arrays,
+        type is ArrayList to enable dynamic resizing (as new test values are added)  */
+        ArrayList<Object[]> parameters = new ArrayList<>();
 
         // Deciding how many numbers should be generated and setting limits
         int numberOfTests = 20;
@@ -67,7 +71,7 @@ public class TestMethodsParameters {
                 volvo.getCurrentSpeed() >= 0 && volvo.getCurrentSpeed() <= volvo.getEnginePower());
     }
 
-    @Test //Check that Saabs's currentSpeed is within accepted interval after calling brake method
+    @Test //Check that Saabs's currentSpeed is within accepted interval after calling gas method
     public void testCurrentSpeedAcceptedAfterGasingSaab() {
         saab.startEngine();
         double original_speed = saab.getCurrentSpeed();
@@ -79,7 +83,7 @@ public class TestMethodsParameters {
                 saab.getCurrentSpeed() >= 0 && saab.getCurrentSpeed() <= saab.getEnginePower());
     }
 
-    @Test //Check that Volvos currentSpeed is within accepted interval after calling brake method
+    @Test //Check that Volvos currentSpeed is within accepted interval after calling gas method
     public void testCurrentSpeedAcceptedAfterGasingVolvo() {
         volvo.startEngine();
         double original_speed = volvo.getCurrentSpeed();
@@ -91,7 +95,7 @@ public class TestMethodsParameters {
                 volvo.getCurrentSpeed() >= 0 && volvo.getCurrentSpeed() <= volvo.getEnginePower());
     }
 
-    @Test //Check that Volvo's Gas Increases the Speed
+    @Test //Check that Volvo's Gas method Increases the Speed
     public void testGasNotDecreaseSpeedVolvo() {
         double speed = volvo.getCurrentSpeed();
         double amount = random.nextDouble();
@@ -99,7 +103,7 @@ public class TestMethodsParameters {
         assertTrue(volvo.getCurrentSpeed() >= speed);
     }
 
-    @Test //Check that Saab's Gas Increases the Speed
+    @Test //Check that Saab's Gas method Increases the Speed
     public void testGasNotDecreaseSpeedSaab() {
         double speed = saab.getCurrentSpeed();
         double amount = random.nextDouble();
@@ -107,7 +111,7 @@ public class TestMethodsParameters {
         assertTrue(saab.getCurrentSpeed() >= speed);
     }
 
-    @Test //Check that Volvo's Brake Decreases the Speed
+    @Test //Check that Volvo's Brake method Decreases the Speed
     public void testBrakeNotIncreaseSpeedVolvo() {
         double speed = volvo.getCurrentSpeed();
         double amount = random.nextDouble();
@@ -115,7 +119,7 @@ public class TestMethodsParameters {
         assertTrue(volvo.getCurrentSpeed() <= speed);
     }
 
-    @Test //Check that Saab's Brake Decreases the Speed
+    @Test //Check that Saab's Brake method Decreases the Speed
     public void testBrakeNotIncreaseSpeedSaab() {
         double speed = saab.getCurrentSpeed();
         double amount = random.nextDouble();
