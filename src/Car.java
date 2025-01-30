@@ -73,7 +73,8 @@ public abstract class Car implements Movable {
         currentSpeed = 0.1;
     }
 
-    public void stopEngine() {
+    // private access as this method is only used in the Car constructor for now
+    private void stopEngine() {
         currentSpeed = 0;
     }
 
