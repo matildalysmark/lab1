@@ -8,8 +8,7 @@ public abstract class Car implements Movable {
     protected Color color; // Color of the car
     protected String modelName; // The car model name
 
-    final private String[] directions = {"north", "east", "south", "west"};
-    private int direction_index = 0;
+    Directions direction = Directions.NORTH;
     private double x = 0;
     private double y = 0;
 
@@ -19,31 +18,56 @@ public abstract class Car implements Movable {
 
     @Override
     public void move() {
-        if (directions[direction_index].equals("north")) { y += currentSpeed; }
-        else if (directions[direction_index].equals("east")) { x += currentSpeed; }
-        else if (directions[direction_index].equals("south")) { y -= currentSpeed; }
-        else if (directions[direction_index].equals("west")) { x -= currentSpeed; }
+        switch(direction) {
+            case NORTH->
+                y += currentSpeed;
+
+            case EAST->
+                x += currentSpeed;
+
+            case SOUTH->
+                y -= currentSpeed;
+
+            case WEST->
+                x -= currentSpeed;
+        }
     }
 
     @Override
     public void turnLeft() {
-        if (direction_index == 0)
-            direction_index = 3;
-        else
-            direction_index -= 1;
+        switch(direction) {
+            case NORTH->
+                direction = Directions.WEST;
+
+            case EAST->
+                direction = Directions.NORTH;
+
+            case SOUTH->
+                direction = Directions.EAST;
+
+            case WEST->
+                direction = Directions.SOUTH;
+        }
     }
 
     @Override
     public void turnRight() {
-        if (direction_index == 3)
-            direction_index = 0;
-        else
-            direction_index += 1;
+        switch(direction) {
+            case NORTH->
+                direction = Directions.EAST;
+
+            case EAST->
+                direction = Directions.SOUTH;
+
+            case SOUTH->
+                direction = Directions.WEST;
+
+            case WEST->
+                direction = Directions.NORTH;
+        }
     }
 
-    public void setDirection(int direction) {direction_index = direction % 4;}
-
-    public String getDirection() {return directions[direction_index];}
+    public Directions getDirection() {return direction;}
 
     public double getX() {return x;}
 
@@ -80,11 +104,11 @@ public abstract class Car implements Movable {
 
     public abstract double speedFactor();
 
-    public void incrementSpeed(double amount){
+    private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
     }
 
-    public void decrementSpeed(double amount){
+    private void decrementSpeed(double amount){
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
     }
 
