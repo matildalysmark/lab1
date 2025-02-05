@@ -6,11 +6,17 @@ import static org.junit.Assert.*;
 public class TestMethodsOnce {
     private Saab95 saab;
     private Volvo240 volvo;
+    private Scania scania;
+    private CarTransporter carTransporter;
+    private CarTransporter carTransporter2;
 
     @Before
     public void setUp() {
         saab = new Saab95();
         volvo = new Volvo240();
+        scania = new Scania();
+        carTransporter = new CarTransporter();
+        carTransporter2 = new CarTransporter();
     }
 
     @Test //Check Saab Door Amount
@@ -140,4 +146,113 @@ public class TestMethodsOnce {
         assertFalse(saab.getTurboState());
     }
 
+    @Test //testar CarTransporter rampen
+    public void testCarTransporterRamp() {
+        // höjer ramp och kollar att den är uppe
+        carTransporter.raiseFlatbed();
+        assertTrue(carTransporter.rampIsUp());
+
+        // sänker ramp och kollar att den är sänkt
+        carTransporter.lowerFlatbed();
+        assertFalse(carTransporter.rampIsUp());
+    }
+
+    @Test // Testing that CarTransport cannot move when ramp is lowered
+    public void testCarTransporterRampMoving() {
+        double previousX = carTransporter.getX();
+        double previousY = carTransporter.getY();
+        
+        carTransporter.lowerFlatbed();
+        carTransporter.startEngine();
+        carTransporter.gas(10);
+        carTransporter.move();
+        
+        assertEquals(previousX, carTransporter.getX(), 0);
+        assertEquals(previousY, carTransporter.getY(), 0);
+    }
+
+    @Test // Testing that CarTransport cannot lower ramp when CarTransport is moving
+    public void testCarTransporterMovingRamp() {
+        carTransporter.raiseFlatbed();
+        
+        carTransporter.startEngine();
+        carTransporter.gas(10);
+        
+        carTransporter.lowerFlatbed();
+
+        assertTrue(carTransporter.rampIsUp());
+    }
+
+    @Test
+    public void testCarTransporterMovingLoadedCars() {
+        carTransporter.lowerFlatbed();
+
+        Car[] cars = {volvo, saab, carTransporter};
+
+        // sätter CarTransport, saab och volvos position till (0, 0)
+        for (Car car : cars) {
+            car.setX(0);
+            car.setY(0);
+        }
+
+        carTransporter.loadCar(volvo);
+        carTransporter.loadCar(saab);
+
+        // flyttar på CarTransport
+        carTransporter.startEngine();
+        carTransporter.gas(10);
+        carTransporter.move();
+        carTransporter.turnLeft();
+        carTransporter.turnLeft();
+        carTransporter.move();
+        carTransporter.turnRight();
+
+        // kollar så att de loadade bilarna har rört sig med CarTransport
+        assertTrue(carTransporter.getX() == volvo.getX() && carTransporter.getY() == volvo.getY());
+        assertTrue(carTransporter.getX() == saab.getX() && carTransporter.getY() == saab.getY());
+        assertEquals(carTransporter.getDirection(), volvo.getDirection());
+        assertEquals(carTransporter.getDirection(), saab.getDirection());
+
+        carTransporter.unloadCar();
+        carTransporter.unloadCar();
+    }
+    
+    @Test // testar att Scania ej kan förflytta om flaket ej är uppfällt
+    public void testScaniaMovementWhenFlatbedDown(){
+        double previous_x = scania.getX();
+        double previous_y = scania.getY();
+        scania.setAngle(35);
+        scania.move();
+        assertEquals(previous_x, scania.getX(), 0);
+        assertEquals(previous_y, scania.getY(), 0);
+    }
+
+    @Test // Testar så att bil ej kan loadas om den är för långt bort
+    public void testLoadCarFromDistance() {
+        carTransporter.setX(0);
+        carTransporter.setY(0);
+
+        volvo.setX(10);
+        volvo.setY(30);
+
+        carTransporter.loadCar(volvo);
+        assertFalse(volvo.loadStatus());
+    }
+
+    @Test // samma test för lastning och avlastning för att veta att vi har en bil att lasta av
+    public void testLoadStatusCar(){
+        //ser till att status ändras när bil lastats
+        carTransporter.loadCar(saab);
+        assertTrue(saab.loadStatus());
+
+        //ser till att status ändras när bil lastats av
+        carTransporter.unloadCar();
+        assertFalse(saab.loadStatus());
+    }
+
+    @Test // testar att en CarTransport ej kan lastas på en annan CarTransport
+    public void testLoadCarTransportOnCarTransport(){
+        carTransporter.loadCar(carTransporter2);
+        assertFalse(carTransporter2.loadStatus());
+    }
 }

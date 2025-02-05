@@ -77,7 +77,9 @@ public abstract class Car implements Movable {
 
     protected void loadCar() { isOnCarTransport = true; }
 
-    protected void unloadCar() { isOnCarTransport = false; }
+    protected void unloadCar() { isOnCarTransport = false;}
+
+    public boolean loadStatus() {return isOnCarTransport;}
 
     public Directions getDirection() {return direction;}
 

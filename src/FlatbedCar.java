@@ -1,12 +1,14 @@
-public abstract class FlatbedCar extends Car {
-    protected Flatbed flatbed; // antingen ramp eller vinklat flak
+public abstract class FlatbedCar<T extends Flatbed> extends Car {
+    protected T flatbed; // antingen ramp eller vinklat flak
 
 
-    public FlatbedCar() {
+    public FlatbedCar(T flatbed) {
         super();
         nrDoors = 2;
-        flatbed = ; // fixa
+        this.flatbed = flatbed; // sätter flaket till det som skickas in (FlatbedWithAngle från Scania och Ramp från CarTransport)
     }
+
+    protected T getFlatbed() { return this.flatbed; }
 
     @Override
     public void move() {

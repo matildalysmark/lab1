@@ -1,19 +1,23 @@
 import java.awt.*;
 
-public class CarTransporter extends FlatbedCar {
+public class CarTransporter extends FlatbedCar<Ramp> {
     private static final int maxLoad = 10;
     private int currentLoad; // index i listan
     private Car[] carsLoaded;
-    private Ramp flatbed;
+    private Flatbed ramp;
 
     public CarTransporter() {
-        super();
+        super(new Ramp()); // ??
         color = Color.blue;
         enginePower = 125;
         modelName = "Car Transporter";
         currentLoad = 0;
         carsLoaded = new Car[maxLoad];
-        flatbed = new Ramp();
+        ramp = super.getFlatbed(); // ??
+    }
+
+    public boolean rampIsUp() {
+        return ramp.isUp();
     }
 
     public void loadCar(Car inputCar) {
@@ -21,7 +25,7 @@ public class CarTransporter extends FlatbedCar {
         double distance = Math.sqrt(Math.pow((this.getX() - inputCar.getX()), 2) + Math.pow((this.getY() - inputCar.getY()), 2));
 
         // kollar att ramp är nere, bilen är inom rimligt avstånd, bilen ej är en annan biltransport och transport ej är full
-        if (!flatbed.isUp() && distance <= 5 && !(inputCar instanceof CarTransporter) && currentLoad < maxLoad) {
+        if (!ramp.isUp() && distance <= 5 && !(inputCar instanceof CarTransporter) && currentLoad < maxLoad) {
             carsLoaded[currentLoad] = inputCar; // lägger in bilen i arrayen med lastade bilar (på rätt position)
             currentLoad++; // ökar antalet bilar på flaket
 
@@ -36,7 +40,7 @@ public class CarTransporter extends FlatbedCar {
 
     public void unloadCar() {
         // kollar att flaket är nere och att det finns minst en bil på flaket
-        if (!flatbed.isUp() && currentLoad > 0) {
+        if (!ramp.isUp() && currentLoad > 0) {
             currentLoad--; // minskar antalet bilar på flaket
             Car outputCar = carsLoaded[currentLoad];
             carsLoaded[currentLoad] = null;
@@ -51,7 +55,7 @@ public class CarTransporter extends FlatbedCar {
 
     @Override
     public void move() {
-        if (flatbed.isUp()) {
+        if (ramp.isUp()) {
             super.move(); // förflyttar sig själv
 
             // ser till att alla lastade bilar förflyttas med biltransporten (koordinater)
@@ -70,7 +74,7 @@ public class CarTransporter extends FlatbedCar {
 
     @Override
     public void turnLeft() {
-        if (flatbed.isUp()) {
+        if (ramp.isUp()) {
             super.move(); // roterar sig själv
 
             // ser till att alla lastade bilar ändrar riktning med biltransportens vänstersvängar
@@ -89,7 +93,7 @@ public class CarTransporter extends FlatbedCar {
 
     @Override
     public void turnRight() {
-        if (flatbed.isUp()) {
+        if (ramp.isUp()) {
             super.move(); // roterar sig själv
 
             // ser till att alla lastade bilar ändrar riktning med biltransportens högersvängar

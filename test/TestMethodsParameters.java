@@ -5,18 +5,22 @@ import org.junit.runners.Parameterized;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class TestMethodsParameters {
     private Saab95 saab;
     private Volvo240 volvo;
+    private Scania scania;
     private static Random random = new Random();
 
     @Before
     public void setUp() {
         saab = new Saab95();
         volvo = new Volvo240();
+        scania = new Scania();
     }
 
     // Method to generate list of random numbers to use for testing
@@ -98,7 +102,6 @@ public class TestMethodsParameters {
     @Test //Check that Volvo's Gas method Increases the Speed
     public void testGasNotDecreaseSpeedVolvo() {
         double speed = volvo.getCurrentSpeed();
-        double amount = random.nextDouble();
         volvo.gas(amount);
         assertTrue(volvo.getCurrentSpeed() >= speed);
     }
@@ -106,7 +109,6 @@ public class TestMethodsParameters {
     @Test //Check that Saab's Gas method Increases the Speed
     public void testGasNotDecreaseSpeedSaab() {
         double speed = saab.getCurrentSpeed();
-        double amount = random.nextDouble();
         saab.gas(amount);
         assertTrue(saab.getCurrentSpeed() >= speed);
     }
@@ -114,7 +116,6 @@ public class TestMethodsParameters {
     @Test //Check that Volvo's Brake method Decreases the Speed
     public void testBrakeNotIncreaseSpeedVolvo() {
         double speed = volvo.getCurrentSpeed();
-        double amount = random.nextDouble();
         volvo.brake(amount);
         assertTrue(volvo.getCurrentSpeed() <= speed);
     }
@@ -122,8 +123,15 @@ public class TestMethodsParameters {
     @Test //Check that Saab's Brake method Decreases the Speed
     public void testBrakeNotIncreaseSpeedSaab() {
         double speed = saab.getCurrentSpeed();
-        double amount = random.nextDouble();
         saab.brake(amount);
         assertTrue(saab.getCurrentSpeed() <= speed);
+    }
+
+    @Test // kollar att flaket ej kan fällas ned när Scania är i rörelse
+    public void testScaniaFlatbedInMovement(){
+        scania.startEngine();
+        scania.gas(amount);
+        scania.setAngle(35);
+        assertEquals(0.0, scania.getAngle(), 0);
     }
 }

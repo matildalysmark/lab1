@@ -1,7 +1,9 @@
+import org.junit.Test;
+
 public class FlatbedWithAngle implements Flatbed {
     private double angle;
-    private double minAngle;
-    private double maxAngle;
+    private final double minAngle;
+    private final double maxAngle;
 
     public FlatbedWithAngle(int minAngle, int maxAngle) {
         this.minAngle = minAngle;
