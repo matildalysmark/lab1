@@ -1,40 +1,32 @@
-import org.junit.Test;
-
 public class FlatbedWithAngle implements Flatbed {
     private double angle;
     private final double minAngle;
     private final double maxAngle;
 
-    public FlatbedWithAngle(int minAngle, int maxAngle) {
+    protected FlatbedWithAngle(int minAngle, int maxAngle) {
         this.minAngle = minAngle;
         this.maxAngle = maxAngle;
-        angle = minAngle; // flaket börjar helt uppe (ej vinklat)
+        angle = minAngle; // flatbed is initially closed
     }
 
     @Override
-    public boolean isUp() {
-        return angle == minAngle;
-    } //returnerar flakets läge
+    public boolean isUp() { return angle == minAngle; }
 
-    // höjer flaket till ursprungsläge (mot minangle-vinkeln)
+    // raises flatbed towards start-angle (minAngle)
     @Override
-    public void raise() {
-        angle = Math.max(minAngle, angle - 10);
-    }
+    public void raise() { angle = Math.max(minAngle, angle - 10); }
 
-    // alltså tippa nedåt, för att hälla ut sand/sten (mot maxangle-vinklen)
+    // lowers flatbed, to dump cargo (towards maxAngle)
     @Override
-    public void lower() {
-        angle = Math.min(maxAngle, angle + 10);
-    }
+    public void lower() { angle = Math.min(maxAngle, angle + 10); }
 
-    // Om vinkeln är i tillåtet intervall, ställ in inputAngle-vinkeln
-    public void setAngle(double inputAngle) {
+    // If the angle is in an allowed angle, set the in inputAngle-angle
+    protected void setAngle(double inputAngle) {
         if (inputAngle <= maxAngle && inputAngle >= minAngle)
             angle = inputAngle;
     }
 
-    public double getAngle() {
-        return angle;
-    }
+    public double getAngle() { return angle; }
+    public double getMinAngle() { return minAngle; }
+    public double getMaxAngle() { return maxAngle; }
 }

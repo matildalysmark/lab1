@@ -1,11 +1,10 @@
 public abstract class FlatbedCar<T extends Flatbed> extends Car {
-    protected T flatbed; // antingen ramp eller vinklat flak
-
+    protected T flatbed; // either Ramp or FlatbedWithAngle
 
     public FlatbedCar(T flatbed) {
         super();
         nrDoors = 2;
-        this.flatbed = flatbed; // sätter flaket till det som skickas in (FlatbedWithAngle från Scania och Ramp från CarTransport)
+        this.flatbed = flatbed; // assigns flatbed (FlatbedWithAngle from Scania and Ramp from CarTransport)
     }
 
     protected T getFlatbed() { return this.flatbed; }
@@ -31,24 +30,17 @@ public abstract class FlatbedCar<T extends Flatbed> extends Car {
         }
     }
 
+    public boolean flatbedIsUp() { return flatbed.isUp();}
+
     public void raiseFlatbed() {
-        // höjer flaket endast om lastfordon är stilla
-        if (currentSpeed == 0) {
-            flatbed.raise();
-        }
+        if (currentSpeed == 0) { flatbed.raise(); }
     }
 
     public void lowerFlatbed() {
-        // sänker flaket endast om lastfordon är stilla
-        if (currentSpeed == 0) {
-            flatbed.lower();
-        }
+        if (currentSpeed == 0) { flatbed.lower(); }
     }
 
-    public double speedFactor() {
+    protected double speedFactor() {
         return enginePower * 0.01; //estimerad enginePower
     }
 }
-
-
-

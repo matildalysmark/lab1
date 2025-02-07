@@ -14,7 +14,7 @@ public class TestMethodsParameters {
     private Saab95 saab;
     private Volvo240 volvo;
     private Scania scania;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     @Before
     public void setUp() {
@@ -127,7 +127,7 @@ public class TestMethodsParameters {
         assertTrue(saab.getCurrentSpeed() <= speed);
     }
 
-    @Test // kollar att flaket ej kan fällas ned när Scania är i rörelse
+    @Test // Checks that the flatbed cannot be lowered when Scania in movement
     public void testScaniaFlatbedInMovement(){
         scania.startEngine();
         scania.gas(amount);

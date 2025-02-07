@@ -19,20 +19,20 @@ public class TestMethodsOnce {
         carTransporter2 = new CarTransporter();
     }
 
-    @Test //Check Saab Door Amount
+    @Test
     public void testSaabDoors() {
         assertEquals(2, saab.getNrDoors());
     }
 
-    @Test //Check Volvo Door Amount
+    @Test
     public void testVolvoDoors() {
         assertEquals(4, volvo.getNrDoors());
     }
 
-    @Test //Check Saab Engine Power
+    @Test
     public void testEnginePowerSaab() { assertEquals(125, saab.getEnginePower(), 0); }
 
-    @Test //Check Volvo Engine Power
+    @Test
     public void testEnginePowerVolvo() {
         assertEquals(100, volvo.getEnginePower(), 0);
     }
@@ -50,7 +50,7 @@ public class TestMethodsOnce {
     }
 
     @Test
-    public void testRightMovementSaab() {
+    public void testRightMovementCar() {
         double expected_x = 0;
         double expected_y = 0;
 
@@ -83,17 +83,12 @@ public class TestMethodsOnce {
                 }
             }
         }
-
-        assertTrue("Actual direction after right turn: " + expectedDirection +
-                        "\nCalculated direction after right turn: " + saab.getDirection() +
-                        "\nActual coordinates after movement: " + expected_x + ", " + expected_y +
-                        "\nCalculated coordinates after movement: " + saab.getX() + ", " + saab.getY()
-                ,expectedDirection == saab.getDirection()
+        assertTrue(expectedDirection == saab.getDirection()
                         && expected_x == saab.getX() && expected_y == saab.getY());
     }
 
     @Test
-    public void testLeftMovementSaab() {
+    public void testLeftMovementCar() {
         double expected_x = 0;
         double expected_y = 0;
 
@@ -126,12 +121,8 @@ public class TestMethodsOnce {
             }
         }
 
-        assertTrue("Actual direction after left turn: " + expectedDirection +
-                        "\nCalculated direction after left turn: " + saab.getDirection() +
-                        "\nActual coordinates after movement: " + expected_x + ", " + expected_y +
-                        "\nCalculated coordinates after movement: " + saab.getX() + ", " + saab.getY()
-                ,expectedDirection == saab.getDirection()
-                        && expected_x == saab.getX() && expected_y == saab.getY());
+        assertTrue(expectedDirection == saab.getDirection()
+                && expected_x == saab.getX() && expected_y == saab.getY());
     }
 
     @Test
@@ -146,15 +137,14 @@ public class TestMethodsOnce {
         assertFalse(saab.getTurboState());
     }
 
-    @Test //testar CarTransporter rampen
+    @Test // tests ramp of car transport
     public void testCarTransporterRamp() {
-        // höjer ramp och kollar att den är uppe
         carTransporter.raiseFlatbed();
-        assertTrue(carTransporter.rampIsUp());
+        assertTrue(carTransporter.flatbedIsUp());
 
-        // sänker ramp och kollar att den är sänkt
+        // lowers ramp and checks that it is lowered
         carTransporter.lowerFlatbed();
-        assertFalse(carTransporter.rampIsUp());
+        assertFalse(carTransporter.flatbedIsUp());
     }
 
     @Test // Testing that CarTransport cannot move when ramp is lowered
@@ -167,8 +157,7 @@ public class TestMethodsOnce {
         carTransporter.gas(10);
         carTransporter.move();
         
-        assertEquals(previousX, carTransporter.getX(), 0);
-        assertEquals(previousY, carTransporter.getY(), 0);
+        assertTrue(previousX == carTransporter.getX() && previousY == carTransporter.getY());
     }
 
     @Test // Testing that CarTransport cannot lower ramp when CarTransport is moving
@@ -179,55 +168,53 @@ public class TestMethodsOnce {
         carTransporter.gas(10);
         
         carTransporter.lowerFlatbed();
-
-        assertTrue(carTransporter.rampIsUp());
+        assertTrue(carTransporter.flatbedIsUp());
     }
 
     @Test
     public void testCarTransporterMovingLoadedCars() {
         carTransporter.lowerFlatbed();
+        Car[] cars = {saab, volvo, carTransporter};
+        scania.raiseFlatbed();
 
-        Car[] cars = {volvo, saab, carTransporter};
-
-        // sätter CarTransport, saab och volvos position till (0, 0)
         for (Car car : cars) {
             car.setX(0);
             car.setY(0);
+            carTransporter.loadCar(car);
         }
+        carTransporter.raiseFlatbed();
 
-        carTransporter.loadCar(volvo);
-        carTransporter.loadCar(saab);
-
-        // flyttar på CarTransport
         carTransporter.startEngine();
         carTransporter.gas(10);
-        carTransporter.move();
-        carTransporter.turnLeft();
-        carTransporter.turnLeft();
-        carTransporter.move();
-        carTransporter.turnRight();
 
-        // kollar så att de loadade bilarna har rört sig med CarTransport
-        assertTrue(carTransporter.getX() == volvo.getX() && carTransporter.getY() == volvo.getY());
-        assertTrue(carTransporter.getX() == saab.getX() && carTransporter.getY() == saab.getY());
-        assertEquals(carTransporter.getDirection(), volvo.getDirection());
-        assertEquals(carTransporter.getDirection(), saab.getDirection());
+        for (int x = 0; x < 6; x++) {
+            carTransporter.turnRight();
+            carTransporter.move();
+        }
+        carTransporter.turnLeft();
 
-        carTransporter.unloadCar();
-        carTransporter.unloadCar();
+        for (Car car : cars) {
+            assertEquals(carTransporter.getDirection(), car.getDirection());
+            assertTrue(carTransporter.getX() == car.getX() && carTransporter.getY() == car.getY());
+        }
+
+        for (int x = 0; x < 2; x++)
+            carTransporter.unloadCar();
     }
     
-    @Test // testar att Scania ej kan förflytta om flaket ej är uppfällt
+    @Test // checks that Scania cannot move if flatbed is not up
     public void testScaniaMovementWhenFlatbedDown(){
         double previous_x = scania.getX();
         double previous_y = scania.getY();
         scania.setAngle(35);
+        scania.startEngine();
+        scania.gas(10);
         scania.move();
         assertEquals(previous_x, scania.getX(), 0);
         assertEquals(previous_y, scania.getY(), 0);
     }
 
-    @Test // Testar så att bil ej kan loadas om den är för långt bort
+    @Test // Testing that cars cannot be loaded on a Car Transport if they are too far
     public void testLoadCarFromDistance() {
         carTransporter.setX(0);
         carTransporter.setY(0);
@@ -239,20 +226,57 @@ public class TestMethodsOnce {
         assertFalse(volvo.loadStatus());
     }
 
-    @Test // samma test för lastning och avlastning för att veta att vi har en bil att lasta av
+    @Test // same test for loading and unloading to have a car to unload
     public void testLoadStatusCar(){
-        //ser till att status ändras när bil lastats
+        // checks that load status of car is changed when loaded
+        carTransporter.lowerFlatbed();
         carTransporter.loadCar(saab);
         assertTrue(saab.loadStatus());
 
-        //ser till att status ändras när bil lastats av
+        // checks that load status of car is changed when unloaded
         carTransporter.unloadCar();
         assertFalse(saab.loadStatus());
     }
 
-    @Test // testar att en CarTransport ej kan lastas på en annan CarTransport
+    @Test // Testing that a Car Transporter cannot be loaded on another Car Transporter
     public void testLoadCarTransportOnCarTransport(){
         carTransporter.loadCar(carTransporter2);
         assertFalse(carTransporter2.loadStatus());
+    }
+
+    @Test
+    public void testRaiseAndLowerScaniaFlatbed() {
+        scania.setAngle(scania.getMinAngle());
+
+        while (scania.getAngle() < scania.getMaxAngle()) {
+            scania.lowerFlatbed();
+        }
+        assertFalse(scania.flatbedIsUp());
+
+        while (scania.getAngle() > scania.getMinAngle()) {
+            scania.raiseFlatbed();
+        }
+        assertTrue(scania.flatbedIsUp());
+    }
+
+    @Test //Sends only the correct car type as an argument
+    public void testSpecificCarWorkshop() {
+        Workshop<Saab95> specificCarType = new Workshop<Saab95>();
+        specificCarType.handInCar(saab);
+        assertTrue(specificCarType.checkIfCarInWorkshop(saab));
+        specificCarType.takeBackCar(saab);
+    }
+
+    @Test // Tests to make sure we dont exceed the max car limit of the workshop
+    public void testInputMaxLoadWorkshop(){
+        Workshop<Car> specificMaxLoad = new Workshop<Car>(2);
+        specificMaxLoad.handInCar(scania);
+        specificMaxLoad.handInCar(volvo);
+        specificMaxLoad.handInCar(saab);
+
+        assertEquals(2, specificMaxLoad.getCurrentLoad());
+
+        specificMaxLoad.takeBackCar(scania);
+        specificMaxLoad.takeBackCar(volvo);
     }
 }

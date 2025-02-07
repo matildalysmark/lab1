@@ -1,13 +1,13 @@
 import java.awt.*;
 
 public abstract class Car implements Movable {
-    protected int nrDoors; // Number of doors on the car
-    protected double enginePower; // Engine power of the car
-    protected double currentSpeed; // The current speed of the car
-    protected Color color; // Color of the car
-    protected String modelName; // The car model name
+    protected int nrDoors;
+    protected double enginePower;
+    protected double currentSpeed;
+    protected Color color;
+    protected String modelName;
     protected boolean isOnCarTransport;
-    protected float weight;
+    protected int weight;
 
     Directions direction = Directions.NORTH;
     private double x = 0;
@@ -75,28 +75,26 @@ public abstract class Car implements Movable {
         }
     }
 
-    protected void loadCar() { isOnCarTransport = true; }
+    protected int getWeight() { return this.weight; }
 
-    protected void unloadCar() { isOnCarTransport = false;}
+    protected void loadCar(Car carTransport) { isOnCarTransport = true; }
 
-    public boolean loadStatus() {return isOnCarTransport;}
+    protected void unloadCar() { isOnCarTransport = false; }
 
-    public Directions getDirection() {return direction;}
+    public boolean loadStatus() { return isOnCarTransport; }
 
-    protected void setDirection(Directions direction) {this.direction = direction;}
+    public Directions getDirection() { return direction; }
 
-    public double getX() {return x;}
+    protected void setDirection(Directions direction) { this.direction = direction; }
 
-    public double getY() {return y;}
+    public double getX() { return x; }
 
-    protected void setX(double nX) {
-        if (!isOnCarTransport)
-            x = nX;
-    }
+    public double getY() { return y; }
+
+    protected void setX(double nX) { x = nX; }
 
     protected void setY(double nY) {
-        if (!isOnCarTransport)
-            y = nY;
+        y = nY;
     }
 
     public int getNrDoors() {
@@ -128,7 +126,7 @@ public abstract class Car implements Movable {
         currentSpeed = 0;
     }
 
-    public abstract double speedFactor(); // göra private????
+    protected abstract double speedFactor();
 
     private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
@@ -143,8 +141,7 @@ public abstract class Car implements Movable {
             incrementSpeed(amount);
     }
 
-    public void brake(double amount) {
-
+    public void brake( double amount ) {
         if (!isOnCarTransport && amount >= 0 && amount <= 1)
             decrementSpeed(amount);
     }

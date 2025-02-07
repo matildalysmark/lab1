@@ -10,6 +10,7 @@ public class Saab95 extends Car {
         enginePower = 125;
         turboOn = false;
         modelName = "Saab95";
+        weight = 1600;
     }
 
     public void setTurboOn(){
