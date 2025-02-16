@@ -8,6 +8,7 @@ public abstract class Car implements Movable {
     protected String modelName;
     protected boolean isOnCarTransport;
     protected int weight;
+    protected boolean isHandedIn;
 
     Directions direction = Directions.NORTH;
     private double x = 0;
@@ -16,11 +17,12 @@ public abstract class Car implements Movable {
     protected Car() {
         stopEngine();
         isOnCarTransport = false;
+        isHandedIn = false;
     }
 
     @Override
     public void move() {
-        if (!isOnCarTransport) {
+        if (!isOnCarTransport && !isHandedIn) {
             switch(direction) {
                 case NORTH->
                         y += currentSpeed;
@@ -39,7 +41,7 @@ public abstract class Car implements Movable {
 
     @Override
     public void turnLeft() {
-        if (!isOnCarTransport) {
+        if (!isOnCarTransport && !isHandedIn) {
             switch(direction) {
                 case NORTH->
                         direction = Directions.WEST;
@@ -58,7 +60,7 @@ public abstract class Car implements Movable {
 
     @Override
     public void turnRight() {
-        if (!isOnCarTransport) {
+        if (!isOnCarTransport && !isHandedIn) {
             switch(direction) {
                 case NORTH->
                         direction = Directions.EAST;
@@ -82,6 +84,13 @@ public abstract class Car implements Movable {
     protected void unloadCar() { isOnCarTransport = false; }
 
     public boolean loadStatus() { return isOnCarTransport; }
+
+    public boolean handedInStatus() { return isHandedIn; }
+
+    public void setHandedInStatus(boolean isHandedIn) {
+        this.isHandedIn = isHandedIn;
+        stopEngine();
+    }
 
     public Directions getDirection() { return direction; }
 
@@ -122,7 +131,7 @@ public abstract class Car implements Movable {
     }
 
     // private access as this method is only used in the Car constructor for now
-    private void stopEngine() {
+    public void stopEngine() {
         currentSpeed = 0;
     }
 
@@ -137,7 +146,7 @@ public abstract class Car implements Movable {
     }
 
     public void gas(double amount) {
-        if (!isOnCarTransport && amount >= 0 && amount <= 1)
+        if (!isOnCarTransport && amount >= 0 && amount <= 1 && currentSpeed > 0)
             incrementSpeed(amount);
     }
 

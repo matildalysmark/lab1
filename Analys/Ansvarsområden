@@ -1,0 +1,7 @@
+Analysera era klasser med avseende på Separation of Concern (SoC) och Single Responsibility Principle (SRP).
+
+Vilka ansvarsområden har era klasser?
+
+Vilka anledningar har de att förändras?
+
+På vilka klasser skulle ni behöva tillämpa dekomposition för att bättre följa SoC och SRP?

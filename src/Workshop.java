@@ -23,12 +23,16 @@ public class Workshop<T extends Car> {
         if (currentLoad < maxLoad) {
             handedInCars.add(car);
             currentLoad++;
+            car.setHandedInStatus(true);
         }
     }
 
     public void takeBackCar(T car) {
         // Removes the car if it is among the turned in cars
-        if (handedInCars.remove(car)) { currentLoad--; }
+        if (handedInCars.remove(car)) {
+            currentLoad--;
+            car.setHandedInStatus(false);
+        }
     }
 
     public boolean checkIfCarInWorkshop(T handedInCar) {
