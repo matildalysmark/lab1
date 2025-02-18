@@ -79,7 +79,7 @@ public abstract class Car implements Movable {
 
     protected int getWeight() { return this.weight; }
 
-    protected void loadCar(Car carTransport) { isOnCarTransport = true; }
+    protected void loadCar(Car car) { isOnCarTransport = true; }
 
     protected void unloadCar() { isOnCarTransport = false; }
 

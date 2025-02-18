@@ -1,9 +1,9 @@
-Motivera, i termer av de principer vi gått igenom, varför era förbättringar verkligen är förbättringar.
+--Motivera, i termer av de principer vi gått igenom, varför era förbättringar verkligen är förbättringar.--
 
-Skriv en refaktoriseringsplan.
+--Skriv en refaktoriseringsplan.
 Planen bör bestå av en sekvens refaktoriseringssteg som tar er från det nuvarande programmet till ett som implementerar er nya design.
 Planen behöver inte vara enormt detaljerad.
-Se Övning 3: UML, static vs dynamic för ett exempel på en refaktoriseringsplan.
+Se Övning 3: UML, static vs dynamic för ett exempel på en refaktoriseringsplan.--
 
-Finns det några delar av planen som går att utföra parallellt, av olika utvecklare som arbetar oberoende av varandra?
-Om inte, finns det något sätt att omformulera planen så att en sådan arbetsdelning är möjlig?
+--Finns det några delar av planen som går att utföra parallellt, av olika utvecklare som arbetar oberoende av varandra?
+Om inte, finns det något sätt att omformulera planen så att en sådan arbetsdelning är möjlig?--

@@ -1,13 +1,26 @@
-Analysera de beroenden som finns med avseende på cohesion och coupling, och Dependency Inversion Principle.
+--Analysera de beroenden som finns med avseende på cohesion och coupling, och Dependency Inversion Principle.--
 
-Vilka beroenden är nödvändiga?
-Att Saab, Volvo, Scania, CarTransporter beror på Car.
+--Vilka beroenden är nödvändiga?--
+Att Saab, Volvo, Scania, CarTransporter beror på (ärver av) Car, då varje bilmodell ska kunna göra allt som Car kan, och lite mer.
 
-Vilka klasser är beroende av varandra som inte borde vara det?
-CarTransporter och Scania kanske inte borde vara subklasser till Flatbedcar, utan endast ha en flatbed som komponent. (från handledare)
 
-Finns det starkare beroenden än nödvändigt?
+--Vilka klasser är beroende av varandra som inte borde vara det?--
+CarController borde ej ta in CarView som komponent, borde ej känna till visualiseringen.
 
-Kan ni identifiera några brott mot övriga designprinciper vi pratat om i kursen?
+--Finns det starkare beroenden än nödvändigt?--
+
+--Kan ni identifiera några brott mot övriga designprinciper vi pratat om i kursen?--
+
+Open for extension, closed for modification: Vissa klassattributer samt getters/setters är publika fast de inte borde kunna ändras/användas utifrån,
+detta för att möjliggöra åtkomst från Workshop och tests. Borde förmodligen göras till package private.
+
+Liskov substitution principle: -
+
+Interface segregation principle: -
+
+Dependency inversion principle: -
+
+Composition over inheritance: CarTransporter och Scania kanske inte borde vara subklasser till Flatbedcar,
+utan borde istället implementa ett flatbed interface och ta in sin respektive flatbed som komponent.
 
 
