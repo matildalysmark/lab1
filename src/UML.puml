@@ -15,7 +15,7 @@ Graphics <.. DrawPanel
 +class JPanel #lightcyan/lightyellow {
 }
 JPanel <|-[#blue] DrawPanel
-JPanel <---* CarView
+JPanel <--* CarView
 
 +class JFrame #lightcyan/lightyellow {
 }
@@ -40,6 +40,7 @@ note left: Sup
 Flatbed <|.[#green]. Ramp
 Flatbed <|.[#green]. FlatbedWithAngle
 Flatbed <--* FlatbedCar
+Flatbed <--* CarTransporter
 
 +class Car #LightGreen/LightGoldenRodYellow
 {
@@ -54,9 +55,8 @@ Flatbed <--* FlatbedCar
 Car *--> Directions
 Car <--* CarController
 Car <--* CarTransporter
-Car <--* DrawPanel
+Car <--* Workshop
 Car <.. Car
-Car <... Workshop
 
 Car <|-[#blue] FlatbedCar
 Car <|-[#blue]- Saab95
@@ -70,7 +70,7 @@ Car <|-[#blue]- Volvo240
 {method} +setTurboOn(): void
 {method} +setTurboOff(): void
 }
-Saab95 <--* CarController
+Saab95 <.. CarController
 
 +class Volvo240 #lightblue/pink{
 }
@@ -80,7 +80,7 @@ Volvo240 <--* CarController
 {method} +setAngle(double): void
 
 }
-Scania <--* CarController
+Scania <.. CarController
 
 +class CarTransporter #lightblue/pink{
 {method} +loadCar(): void
@@ -92,7 +92,7 @@ Scania <--* CarController
 
 +class Ramp #lightgreen/lightblue{
 }
-Ramp <---* CarTransporter
+Ramp <.. CarTransporter
 
 
 +class FlatbedWithAngle #lightgreen/lightblue{

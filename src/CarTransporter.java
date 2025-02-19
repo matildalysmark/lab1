@@ -17,7 +17,6 @@ public class CarTransporter extends FlatbedCar<Ramp> {
         weight = 6000;
     }
 
-    //Name change - repetade
     public void loadCar(Car inputCar) {
         // Calculates the distance between the car transporter and the car being loaded
         double distance = Math.sqrt(Math.pow((this.getX() - inputCar.getX()), 2) + Math.pow((this.getY() - inputCar.getY()), 2));
