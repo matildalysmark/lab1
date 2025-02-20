@@ -6,8 +6,6 @@ abstract class Workshop
 interface Movable
 interface Flatbed
 
-note "Hello" as N1
-
 +class Graphics #lightcyan/lightyellow {
 }
 Graphics <.. DrawPanel
@@ -35,7 +33,6 @@ Movable <|.[#green].. Car
 {method} raise(): void
 {method} lower(): void
 }
-note left: Sup
 
 Flatbed <|.[#green]. Ramp
 Flatbed <|.[#green]. FlatbedWithAngle
@@ -56,7 +53,9 @@ Car *--> Directions
 Car <--* CarController
 Car <--* CarTransporter
 Car <--* Workshop
+Car <--* DrawPanel
 Car <.. Car
+
 
 Car <|-[#blue] FlatbedCar
 Car <|-[#blue]- Saab95
@@ -122,10 +121,6 @@ CarController *--> CarView
 CarController <--* CarView
 CarController <.. CarController
 
-scale 750 width
-package  <<Folder>>{
-class Car
-}
 
 +class Workshop<T extends Car> #pink/LightGoldenRodYellow
 {

@@ -1,9 +1,20 @@
---Motivera, i termer av de principer vi gått igenom, varför era förbättringar verkligen är förbättringar.--
+--Motivera, i termer av de principer vi gått igenom, varför era förbättringar verkligen är förbättringar--
 
 --Skriv en refaktoriseringsplan.
 Planen bör bestå av en sekvens refaktoriseringssteg som tar er från det nuvarande programmet till ett som implementerar er nya design.
 Planen behöver inte vara enormt detaljerad.
-Se Övning 3: UML, static vs dynamic för ett exempel på en refaktoriseringsplan.--
+Se Övning 3: UML, static vs dynamic för ett exempel på en refaktoriseringsplan--
+
+1. Göra CarController oberoende av CarView.
+2. Ändra så att CarTransporter inte ärver metoder som loadStatus och loadCar från Car klassen. Separera till olika interfaces,
+    t.ex. "Loadable" för bilar som kan lastas, och göra att CarTransporter (och ev. Scania) ej implementar det.
+3. Göra vissa klassattributer som är publika till package private för att exponera rätt gränssnitt.
+4. Ändra så att Car ej är beroende av sig själv.
+5. Tillämpa dekomposition på actionPerformed i CarController, initComponents i CarView samt konstruktorn i DrawPanel. Ev. också i vissa metoder i CarTransporter.
+6. Ändra namn på loadCar i Loadable interfacet så att den inte heter samma som i CarTransporter.
+7. Ändra namn på setAngle i Scania så att den inte heter samma som i FlatBedWithAngle (overridar inte ens just nu)
 
 --Finns det några delar av planen som går att utföra parallellt, av olika utvecklare som arbetar oberoende av varandra?
 Om inte, finns det något sätt att omformulera planen så att en sådan arbetsdelning är möjlig?--
+Punkterna 2 och 6 är starkt kopplade och en ändring som löser ena punkten kan påverka hur den andra punkten ska lösas.
+Resten är ganska oberoende av varandra och borde kunna lösas parallellt.
