@@ -103,7 +103,6 @@ FlatbedWithAngle <--*Scania
 {method} #paintComponet(Graphics): void
 }
 DrawPanel <--* CarView
-DrawPanel <.. CarController
 
 
 ~class CarView #lightcyan/lightyellow {

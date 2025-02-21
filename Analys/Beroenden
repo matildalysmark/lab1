@@ -1,35 +1,36 @@
 >[ Analysera de beroenden som finns med avseende på cohesion och coupling, och Dependency Inversion Principle. ]<
 
     --Vilka beroenden är nödvändiga?--
-    * Att CarView beror av CarController
-    * Att Workshop beror av Car
+    * Att CarView (visualisering) beror av CarController (logik)
+    * Att Workshop beror av Car (iaf nu då servicen endast ska hantera bilar)
     * Att Scania och CarTransporter är beroende av sina respektive flak
-    * Att klasserna som implementerar är beroende av sina respektive interfaces (t.ex. FlatBedWithAngle och Ramp beroende av Flatbed interface)
 
     --Vilka klasser är beroende av varandra som inte borde vara det?--
     * CarController borde ej ta in CarView som komponent, borde ej känna till sin visualisering.
     * Car borde ej vara beroende av sig själv, tar felaktigt in ett Car objekt i en metod där den inte borde göra det
 
     --Finns det starkare beroenden än nödvändigt?--
-    * CarController är beroende av bilklasserna Volvo240, Saab95 och Scania, borde endast vara beroende av ett Car/fordon interface,
-        och att objekten initialiseras i en main klass istället. Ganska generellt, kan nog appliceras på många av klasserna.
+    * CarController är beroende Volvo240, Saab95 och Scania, borde endast vara beroende av ett Car/fordon interface,
+        och att objekten initialiseras i någon main klass istället. Ganska generellt, kan nog appliceras på många av klasserna.
 
     --Kan ni identifiera några brott mot övriga designprinciper vi pratat om i kursen?--
     * Open for extension, closed for modification: Vissa klassattributer samt getters/setters är publika fast de inte borde kunna ändras/användas utifrån,
-        detta för att möjliggöra åtkomst från Workshop och tests. Borde förmodligen göras till package private.
+        detta för att möjliggöra åtkomst från Workshop och tests.
 
-    * Liskov substitution principle: loadCar och unloadCar från Car klassen kan ej användas på CarTransporters, som ärver av Car.
-        Innebär att ett objekt av Car inte skulle kunna bytas ut mot objekt av CarTransporter, då alla metoder inte funkar som förväntat.
+    * Liskov substitution principle: En CarTransporter kan ej loadas på en annan CarTransporter, vilket gör dess ärvda metoder loadCar och unloadCar problematiska.
+        Innebär att ett objekt av Car inte skulle kunna bytas ut mot ett objekt av CarTransporter,
+        då alla metoder inte skulle fungera som förväntat.
 
-    * Interface segregation principle: loadCar, unloadCar och loadStatus från Car klassen är förmodligen ej relevanta för
-        CarTransporter - vilken är en av dess subklasser, då den inte kan lastas på en biltransport. Ger alltså överflödig metod.
+    * Interface segregation principle: loadCar, unloadCar och loadStatus från Car klassen är ej relevanta för CarTransporter - vilken är en av dess subklasser.
+        Ger alltså CarTransporter överflödiga/irrelevanta metoder, då den ärver från Car klassen som definierat dessa.
+        (loadCar, unloadCar och loadStatus är inte än en del av interfacet som Car implementar än, men ska tillämpa detta i ny design - så principen är giltlig därefter)
 
     * Dependency inversion principle: CarController är direkt beroende av Volvo240, Saab95 och Scania då den skapar objekt av dem
         och kollar en bils typ med instanceof. Detta ger även high coupling, då CarController som sagt får direkt beroende
         av tre andra klasser.
 
     * Composition over inheritance: CarTransporter och Scania kanske inte borde vara subklasser till FlatbedCar,
-        utan borde istället implementa ett flatbed interface och ta in sin respektive flatbed som komponent.
+        utan istället implementa ett UsingFlatbed interface och ta in sin respektive flatbed som komponent direkt.
 
     * Cohesion: Car, Scania, CarTransporter och Workshop har hög cohesion, innehåller mycket logik som endast involverar sina respektive objekt.
 

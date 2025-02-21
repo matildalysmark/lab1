@@ -1,17 +1,19 @@
 --Analysera era klasser med avseende på Separation of Concern (SoC) och Single Responsibility Principle (SRP).--
 
     --Vilka ansvarsområden har era klasser?--
-    * Alla bilklasser, workshop samt flatbeds har logik för respektive komponent och dess användningsområden.
+    * Alla bilklasser, workshop samt flatbeds har logik för respektive komponent och dess tillhörande användningsområden.
     * DrawPanel har ansvaret att måla ut bilarna i fönstret.
-    * CarController ansvarar för att hantera bilarnas beteende i fönstret (vad som händer när de nuddar kanter,
-        nuddar en workshop samt när och hur deras logikmetoder ska kallas på).
+    * CarController ansvarar för att se till så att fönstret uppdateras och hantera bilarnas beteende i fönstret
+        (vad som händer när de nuddar kanter/workshop samt när och hur deras logikmetoder ska kallas på).
     * CarView ansvarar för att visa fönstret, logiken bakom knapparna samt att måla ut knapparna i fönstret.
 
     --Vilka anledningar har de att förändras?--
-    Öka möjlighet till återanvändning, tydligare och lättare att förstå, lättare att testa och underhålla.
+    Öka möjlighet till återanvändning, göra dem tydligare och lättare att förstå, samt lättare att testa och underhålla.
 
     --På vilka klasser skulle ni behöva tillämpa dekomposition för att bättre följa SoC och SRP?--
     * Dela upp actionPerformed i CarController, göra en separat metod touchingEdge för att kolla om en bil nuddat kanten
         (och kanske t.o.m. anyCarTouchingEdge som kollar om någon av alla bilar nuddar kanten). Även göra separat metod för
         inWorkshop som kollar om en bil kört in i en verkstad.
-    * Dela upp initComponents i CarView samt konstruktorn i DrawPanel.
+    * Dela upp initComponents i CarView
+    * Dela upp konstruktorn i DrawPanel
+    * Generellt tydliggöra samt separera ansvarsområde för DrawPanel, CarController och CarView
