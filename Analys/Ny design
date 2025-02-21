@@ -5,7 +5,7 @@ Planen bör bestå av en sekvens refaktoriseringssteg som tar er från det nuvar
 Planen behöver inte vara enormt detaljerad.
 Se Övning 3: UML, static vs dynamic för ett exempel på en refaktoriseringsplan--
 
-1. Göra DrawPanel beroende av CarView, och CarView beroende av CarController. Inga andra beroenden mellan de tre.
+1. Göra CarController oberoende av CarView. Separera ansvarsområden mellan CarController, CarView och Drawpanel.
 2. Ändra så att CarTransporter inte ärver metoder som loadStatus och loadCar från Car klassen. Separera till olika interfaces,
     t.ex. "Loadable" för bilar som kan lastas, och göra att CarTransporter (och ev. Scania) ej implementar det.
 3. Göra de publika klassattributer som inte ska vara tillgängliga utifrån till package private för att exponera rätt gränssnitt.
