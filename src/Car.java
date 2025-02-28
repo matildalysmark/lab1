@@ -77,13 +77,9 @@ public abstract class Car implements Movable {
         }
     }
 
-    protected int getWeight() { return this.weight; }
-
-    protected void loadCar(Car car) { isOnCarTransport = true; }
-
-    protected void unloadCar() { isOnCarTransport = false; }
-
     public boolean loadStatus() { return isOnCarTransport; }
+
+    protected int getWeight() { return this.weight; }
 
     public boolean handedInStatus() { return isHandedIn; }
 

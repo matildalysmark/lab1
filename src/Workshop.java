@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Workshop<T extends Car> {
-    private static final int defaultMaxLoad = 5;
+    private static final int defaultMaxLoad = 2;
     private final int maxLoad;
     private final ArrayList<T> handedInCars;
     private int currentLoad;

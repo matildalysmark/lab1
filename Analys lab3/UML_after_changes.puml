@@ -1,0 +1,155 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class FlatbedCar
+abstract class Workshop
+interface Movable
+interface Flatbed
+interface Loadable
+
+
++class JPanel #lightcyan/lightyellow {
+}
+JPanel <|-[#blue] DrawPanel
+JPanel <--* CarView
+
+~interface Movable #red/white{
+{method} ~ move(): void
+{method} ~ turnLeft(): void
+{method} ~ turnRight(): void
+
+}
+Movable <|.[#green].. Car
+
+~interface Loadable #red/white {
+{method} ~loadCarOnTransporter(Car): void
+{method} ~unLoadCarFromTransporter(): void
+}
+Loadable <|.[#green]. Volvo240
+Loadable <|.[#green]. Saab95
+
+
+~interface Flatbed #red/white
+{
+{method} ~isUp(): boolean
+{method} #raise(): void
+{method} #lower(): void
+}
+
+Flatbed <|.[#green]. Ramp
+Flatbed <|.[#green]. FlatbedWithAngle
+Flatbed <--* FlatbedCar
+Flatbed <--* CarTransporter
+
+~class Car #LightGreen/LightGoldenRodYellow
+{
+{method} ~turnLeft(): void
+{method} ~turnRight(): void
+{method} ~brake(double): void
+{method} ~gas(double): void
+{method} ~move(): void
+}
+Car *--> Directions
+Car <--* CarController
+Car <--* CarTransporter
+Car <--* Workshop
+Car <--* DrawPanel
+
+
+Car <|-[#blue] FlatbedCar
+Car <|-[#blue]- Saab95
+Car <|-[#blue]- Volvo240
+
+
+
+
+
+~class Saab95 #lightblue/pink{
+{method} ~setTurboOn(): void
+{method} ~setTurboOff(): void
+}
+Saab95 <.. CarController
+
+~class Volvo240 #lightblue/pink{
+}
+Volvo240 <--* CarController
+
+~class Scania #lightblue/pink{
+{method} ~setAngle(double): void
+
+}
+Scania <.. CarController
+
+~class CarTransporter #lightblue/pink{
+{method} ~loadCar(): void
+{method} ~unLoadCar(): void
+{method} ~move(): void
+{method} ~turnLeft(): void
+{method} ~turnRight(): void
+}
+
+~class Ramp #lightgreen/lightblue{
+}
+Ramp <.. CarTransporter
+
+
+~class FlatbedWithAngle #lightgreen/lightblue{
+{method} #setFlatbedAngle(double): void
+}
+FlatbedWithAngle <--*Scania
+
+~class DrawPanel #lightcyan/lightyellow {
+{method} ~moveitmoveit(int, int, Car): void
+{method} #paintComponet(Graphics): void
+}
+DrawPanel <--* CarView
+
+
+~class CarView #lightcyan/lightyellow {
+{method} ~actionPerformed(): void
+}
+
+
+~class CarController #lightcyan/lightyellow {
+{method} ~main(String[]): void
+{method} ~actionPerformed(ActionEvent): void
+}
+CarController *--> Workshop
+CarController <--* CarView
+CarController <.. CarController
+
+
+~class Workshop<T extends Car> #pink/LightGoldenRodYellow
+{
+{method} ~handInCar(T): void
+{method} ~takeBackCar(T): void
+{method} ~checkIfCarInWorkshop(T): boolean
+}
+
+
+~class FlatbedCar<T extends Flatbed> #pink/orange
+{
+{method} ~ move(): void
+{method} ~ turnLeft(): void
+{method} ~ turnRight(): void
+{method} ~ raiseFlatbed(): void
+{method} ~ lowerFlatbed(): void
+}
+FlatbedCar <|-[#blue]- Scania
+FlatbedCar <|-[#blue]- CarTransporter
+
+
+scale 750 width
+package foo1 <<Node>> {
+  class Car
+}
+
+~enum Directions #red/white {
+NORTH
+EAST
+SOUTH
+WEST
+}
+Directions <.. CarController
+
+@enduml

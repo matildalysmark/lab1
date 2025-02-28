@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Saab95 extends Car {
+public class Saab95 extends Car implements Loadable {
     private boolean turboOn;
 
     public Saab95() {
@@ -29,4 +29,8 @@ public class Saab95 extends Car {
         if(turboOn) turbo = 1.3;
         return enginePower * 0.01 * turbo;
     }
+
+    public void loadCarOnTransporter() { isOnCarTransport = true; }
+
+    public void unloadCarFromTransporter() { isOnCarTransport = false; }
 }

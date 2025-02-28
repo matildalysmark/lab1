@@ -1,0 +1,27 @@
+Observer, Factory Method, State, Composite. För vart och ett av dessa fyra designmönster, svara på följande frågor:
+
+Finns det något ställe i er design där ni redan använder detta pattern, avsiktligt eller oavsiktligt? Vilka designproblem löste ni genom att använda det?
+* Observer - Nej.
+* Factory Method - Nej.
+* State - Nej, det är ingenstans där vi byter beteende beroende på vilken klass som används för att beskriva nuvarande tillstånd.
+* Composite - Nej.
+
+Finns det något ställe där ni kan förbättra er design genom att använda detta design pattern? Vilka designproblem skulle ni lösa genom att använda det?
+Om inte, varför skulle er design inte förbättras av att använda det?
+* Observer - DrawPanel skulle kunna vara en observer till modell, när koordinaterna ändras (vilket de gör varje gång timern tickar då CarController kallar på move)
+    målar DrawPanel om sig.
+
+* Factory Method - Skulle kunna skapa ett CarFactory för att gömma instansieringen av bil-objekten,
+    användbart i framtiden om man vill utvidga programmet, t.ex. att användaren själv specificerar vilka bilar som ska läggas till.
+
+* State - Det finns inte något ställe komplext nog så att det skulle underlätta att göra mer noggrann klassuppdelning för att skapa olika states.
+    Skulle kunna användas för handedIn statusen i Car, men då skulle vi behöva ha en helt tom klass för state handedIn
+    (då inget ska hända om man kallar på move, turnLeft osv), och då kan vi lika gärna kolla conditions som i nuvarande design
+    och inte köra funktionen om det inte stämmer. Samma princip för att eventuellt ha states för isOnCarTransporter.
+
+* Composite - Skulle kunna skapa en klass med objekt som är en samling av bilar, så att dessa kan användas som en enhet,
+    t.ex. i logik för CarTransporter. Mer effektivt kod?? Förmodligen inte relevant för att flytta/måla ut bilarna i fönstret då
+    de endast ska hanteras som en enhet, och aldrig ett enskilt objekt.
+
+Kan något designmönster vara relevant att använda för denna utökning?
+* Använder Factory method.

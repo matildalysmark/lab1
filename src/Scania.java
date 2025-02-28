@@ -14,7 +14,7 @@ public class Scania extends FlatbedCar<FlatbedWithAngle> {
 
     public void setAngle(double angle) {
         if (currentSpeed == 0)
-            angledFlatbed.setAngle(angle);
+            angledFlatbed.setFlatbedAngle(angle);
     }
 
     public double getAngle() { return angledFlatbed.getAngle(); }

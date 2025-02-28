@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Model model = new Model();
+        CarView view = new CarView("CarSim 1.0", model);
+
+        CarController controller = new CarController(model, view);
     }
 }

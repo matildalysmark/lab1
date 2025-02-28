@@ -1,0 +1,16 @@
+Vilka avvikelser från MVC-idealet kan ni identifiera i det ursprungliga användargränssnittet? Vad borde ha gjorts smartare, dummare eller tunnare?
+1. DrawPanel borde vara "dummare", borde ej innehålla logik för att flytta x- och y
+2. Controller borde vara tunnare, borde endast vara mellanhand mellan användarinput och logik/visualisering
+3. Borde skapa en main/applikation klass som hanterar initialiseringen av M, V och C
+4. CarView borde vara "dummare", och ej innehålla logiken för knapparna (CarControllers ansvar)
+
+Vilka av dessa brister åtgärdade ni med er nya design från del 3? Hur då?
+* Hade "Separera ansvarsområden mellan CarController, CarView och DrawPanel" som steg (vilket är ganska brett), men svårt att
+    följa vårt UML diagram till punkt och pricka och få fungerande kod, då vi ej gått igenom MVC-mönstret innan vi skapade refaktoreringsplanen.
+    Gick ej att få CarController oberoende av både CarView och DrawPanel enligt vårt UML diagram.
+    Lyckades dock åtgärda en del cirkulära kompositioner mellan klasserna.
+
+Vilka brister åtgärdade ni inte?
+* 1, 2, 3, 4.
+
+Rita ett nytt UML-diagram som beskriver en förbättrad design med avseende på MVC.

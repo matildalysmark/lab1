@@ -21,7 +21,7 @@ public class FlatbedWithAngle implements Flatbed {
     public void lower() { angle = Math.min(maxAngle, angle + 10); }
 
     // If the angle is in an allowed angle, set the in inputAngle-angle
-    protected void setAngle(double inputAngle) {
+    protected void setFlatbedAngle(double inputAngle) {
         if (inputAngle <= maxAngle && inputAngle >= minAngle)
             angle = inputAngle;
     }

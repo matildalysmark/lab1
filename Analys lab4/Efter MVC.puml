@@ -8,16 +8,10 @@ interface Flatbed
 interface Loadable
 
 
-+class JPanel #lightcyan/lightyellow {
-}
-JPanel <|-[#blue] DrawPanel
-JPanel <--* CarView
-
 ~interface Movable #red/white{
 {method} ~ move(): void
 {method} ~ turnLeft(): void
 {method} ~ turnRight(): void
-
 }
 Movable <|.[#green].. Car
 
@@ -50,37 +44,29 @@ Flatbed <--* CarTransporter
 {method} ~move(): void
 }
 Car *--> Directions
-Car <--* CarController
 Car <--* CarTransporter
 Car <--* Workshop
 Car <--* DrawPanel
-
+Car <--* Model
 
 Car <|-[#blue] FlatbedCar
 Car <|-[#blue]- Saab95
 Car <|-[#blue]- Volvo240
 
 
-
-
-
-~class Saab95 #lightblue/pink{
+~class Saab95 #LightGreen/LightGoldenRodYellow{
 {method} ~setTurboOn(): void
 {method} ~setTurboOff(): void
 }
-Saab95 <.. CarController
 
-~class Volvo240 #lightblue/pink{
+~class Volvo240 #LightGreen/LightGoldenRodYellow{
 }
-Volvo240 <--* CarController
 
-~class Scania #lightblue/pink{
+~class Scania #LightGreen/LightGoldenRodYellow{
 {method} ~setAngle(double): void
-
 }
-Scania <.. CarController
 
-~class CarTransporter #lightblue/pink{
+~class CarTransporter<T extends Car & Loadable> #LightGreen/LightGoldenRodYellow{
 {method} ~loadCar(): void
 {method} ~unLoadCar(): void
 {method} ~move(): void
@@ -88,38 +74,37 @@ Scania <.. CarController
 {method} ~turnRight(): void
 }
 
-~class Ramp #lightgreen/lightblue{
+~class Ramp #LightGreen/LightGoldenRodYellow{
 }
 Ramp <.. CarTransporter
 
 
-~class FlatbedWithAngle #lightgreen/lightblue{
+~class FlatbedWithAngle #LightGreen/LightGoldenRodYellow{
 {method} #setFlatbedAngle(double): void
 }
 FlatbedWithAngle <--*Scania
 
 ~class DrawPanel #lightcyan/lightyellow {
-{method} ~moveitmoveit(int, int, Car): void
+{method} + onModelChanged(Map<Car, Coords>): void
 {method} #paintComponet(Graphics): void
 }
 DrawPanel <--* CarView
+Model <.. DrawPanel
 
-
-~class CarView #lightcyan/lightyellow {
-{method} ~actionPerformed(): void
+~class CarView #lightcyan/lightyellow  {
+{method} - initComponents(String): void
 }
+Model <--* CarView
 
 
-~class CarController #lightcyan/lightyellow {
-{method} ~main(String[]): void
+~class CarController #pink/LightGoldenRodYellow {
+{method} - addListeners(): void
 {method} ~actionPerformed(ActionEvent): void
 }
-CarController *--> Workshop
-CarController <--* CarView
-CarController <.. CarController
+Model <--* CarController
+CarView <--* CarController
 
-
-~class Workshop<T extends Car> #pink/LightGoldenRodYellow
+~class Workshop<T extends Car> #LightGreen/LightGoldenRodYellow
 {
 {method} ~handInCar(T): void
 {method} ~takeBackCar(T): void
@@ -127,7 +112,7 @@ CarController <.. CarController
 }
 
 
-~class FlatbedCar<T extends Flatbed> #pink/orange
+~class FlatbedCar<T extends Flatbed> #LightGreen/LightGoldenRodYellow
 {
 {method} ~ move(): void
 {method} ~ turnLeft(): void
@@ -140,10 +125,39 @@ FlatbedCar <|-[#blue]- CarTransporter
 
 
 scale 750 width
-package foo1 <<Node>> {
-  class Car
+package pics <<cloud>> #blue/white {
 }
 
+~class Coords #LightGreen/LightGoldenRodYellow{
+{method} ~ getX(): double
+{method} ~ getY(): double
+{method} ~ update(double, double): void
+}
+Coords <--* DrawPanel
+
+~class Model #LightGreen/LightGoldenRodYellow{
+{method} ~ addCar(Car): void
+{method} ~ moveCars(): void
+{method} ~ addListener(ModelListener): void
+{method} - notifyListeners(): void
+}
+
+Workshop <--* Model
+Volvo240 <--* Model
+Coords <--* Model
+
+~interface ModelListener #red/white{
+}
+ModelListener <|..[#green].. DrawPanel
+
+~class Main #Purple/white {
+}
+CarController <.. Main
+CarView <.. Main
+Model <.. Main
+Volvo240 <.. Main
+Saab95 <.. Main
+Scania <.. Main
 
 ~enum Directions #red/white {
 NORTH
@@ -151,6 +165,6 @@ EAST
 SOUTH
 WEST
 }
-Directions <.. CarController
+Directions <.. Model
 
 @enduml
