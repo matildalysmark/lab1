@@ -16,7 +16,7 @@ class CarGroup<T extends Car & Loadable> {
         cars.remove(car);
     }
 
-    Car removeLastCar() {
+    T removeLastCar() {
         T car = cars.get(cars.size() - 1);
         cars.removeLast();
         return car;

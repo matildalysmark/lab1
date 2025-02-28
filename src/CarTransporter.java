@@ -4,7 +4,7 @@ public class CarTransporter<T extends Car & Loadable> extends FlatbedCar<Ramp> {
     private static final int maxLoad = 10;
     private int currentLoad; // index for the carsLoaded array
     private final Flatbed ramp;
-    private CarGroup carGroup;
+    private CarGroup<T> carGroup;
 
     public CarTransporter() {
         super(new Ramp());
@@ -40,11 +40,10 @@ public class CarTransporter<T extends Car & Loadable> extends FlatbedCar<Ramp> {
         // Checking that the ramp is down and that there is at least one car on the flatbed
         if (!ramp.isUp() && currentLoad > 0) {
             currentLoad--;
-            Car outputCar = carGroup.removeLastCar();
+            T outputCar = carGroup.removeLastCar();
 
             // Marking the car as unloaded, so that it can be moved individually
-            T tempCar = (T) outputCar;
-            tempCar.unloadCarFromTransporter();
+            outputCar.unloadCarFromTransporter();
 
             // Placing the unloaded car nearby
             outputCar.setX(this.getX() - 2);
